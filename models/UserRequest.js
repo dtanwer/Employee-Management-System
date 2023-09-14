@@ -1,6 +1,7 @@
 const mongoose=require('mongoose')
 
 const UserSchema=new mongoose.Schema({
+
     userBasicData:{
         businessDomain:{
             type:String,
@@ -28,6 +29,7 @@ const UserSchema=new mongoose.Schema({
         }
         
     },
+
     UserEmails:[{
         accountName:{
             type:String,
@@ -39,6 +41,7 @@ const UserSchema=new mongoose.Schema({
             enum:["workspaceEmail1","workspaceEmail2","workspaceEmail3"]
         }	
     }],
+
     UserSystemManagement:{
         submittedBy:{
             type:String,
@@ -105,10 +108,12 @@ const UserSchema=new mongoose.Schema({
         }]
     }
 },
+
 {timestamps:true}
+
 )
 
-module.exports=mongoose.model('User',UserSchema)
+module.exports=mongoose.model('User', UserSchema)
 
 
 
