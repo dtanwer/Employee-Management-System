@@ -4,3 +4,5 @@ const router = express.Router();
 
 router.get('/', getLeaves).post('/', createLeave)
 router.get(':/id', getLeave).put('/:id', updateLeave).delete('/:id', deleteLeave)
+
+module.exports = router;

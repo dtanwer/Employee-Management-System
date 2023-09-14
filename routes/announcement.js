@@ -5,3 +5,6 @@ const router = express.Router();
 router.get('/', getAnnouncements).post('/', createAnnouncement)
 router.get('/:id',getAnnouncement).put('/:id', updateAnnouncement).delete('/:id', deleteAnnouncement)
 
+module.exports = router;
+
+

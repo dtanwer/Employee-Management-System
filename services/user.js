@@ -1,9 +1,14 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const userModel = require("../models/User.js");
 
 exports.createUser = async (req, res) => {
   try {
-    const newUser = await userModel.create(req.body);
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const newUser = await userModel.create({
+      ...req.body,
+      password: hashedPassword,
+    });
     res.status(201).json({
       message: "User created successfully",
       data: newUser,
@@ -51,6 +56,7 @@ exports.getUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   const id = req.params.id;
+  const { password } = req.body;
   if (!mongoose.Types.ObjectId.isValid(id)) {
     res.status(400).json({
       message: "Invalid Id",
@@ -58,6 +64,10 @@ exports.updateUser = async (req, res) => {
   }
 
   try {
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      req.body.password = hashedPassword;
+    }
     const updatedUser = await userModel.findByIdAndUpdate(id, req.body, {
       new: true,
     });
