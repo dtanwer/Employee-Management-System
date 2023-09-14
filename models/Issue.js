@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const IssueSchema = new mongoose.Schema({
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
+        //TODO: can you explain what is this?
+        type: mongoose.Schema.Types.ObjectId,  
         ref: 'User',
         required: true
     },
