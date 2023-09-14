@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const IssuseSchema = new mongoose.Schema({
+const IssueSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -31,4 +31,4 @@ const IssuseSchema = new mongoose.Schema({
     }
 },{ timestamps: true })
 
-module.exports = mongoose.model('Issuse', IssuseSchema)	
+module.exports = mongoose.model('Issue', IssueSchema)	
