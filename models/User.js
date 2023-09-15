@@ -14,6 +14,18 @@ const UserSchema=new mongoose.Schema({
         required:true,
         match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'is invalid Email'],
     },
+    team:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Team'
+        }
+    ],
+    teamLead:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'User'
+        }
+    ],
     password:{
         type:String,
         default:'123'
