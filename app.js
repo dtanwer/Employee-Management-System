@@ -6,6 +6,7 @@ const issueRouter = require("./routes/issue");
 const leaveRouter = require("./routes/leave");
 const projectIdeasRouter = require("./routes/projectIdea");
 const userRouter = require("./routes/user");
+const teamRouter = require("./routes/team");
 const cookieParser = require("cookie-parser");
 
 const app = express();
@@ -23,6 +24,7 @@ app.use("/announcement", announcementRouter);
 app.use("/feedback", feedbackRouter);
 app.use("/issue", issueRouter);
 app.use("/leave", leaveRouter);
+app.use("/team", teamRouter);
 app.use("/projectIdea", projectIdeasRouter);
 
 module.exports = app;

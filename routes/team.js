@@ -10,7 +10,7 @@ const {
 } = require("../controllers/team.js");
 const router = express.Router();
 
-router.get("/", getTeams).post("/", createTeam);
+router.route('/').get(getTeams).post(createTeam);
 router.put("/add/:id", addTeamMember).put("/remove/:id", removeTeamMember);
 router.get("/:id", getTeam).put("/:id", updateTeam).delete("/:id", deleteTeam);
 

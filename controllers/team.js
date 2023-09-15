@@ -8,37 +8,37 @@ const {
   RemoveTeamMemberService,
 } = require("../services/team");
 
-exports.CreateTeam = async (req, res) => {
+exports.createTeam = async (req, res) => {
     const response = await CreateTeamService(req, res);
     return response;
 }
 
-exports.UpdateTeam = async (req, res) => {
+exports.updateTeam = async (req, res) => {
     const response = await UpdateTeamService(req, res);
     return response;
 }
 
-exports.DeleteTeam = async (req, res) => {
+exports.deleteTeam = async (req, res) => {
     const response = await DeleteTeamService(req, res);
     return response;
 }
 
-exports.GetTeam = async (req, res) => {
+exports.getTeam = async (req, res) => {
     const response = await GetTeamService(req, res);
     return response;
 }
 
-exports.GetTeams = async (req, res) => {
+exports.getTeams = async (req, res) => {
     const response = await GetTeamsService(req, res);
     return response;
 }
 
-exports.AddTeamMember = async (req, res) => {
+exports.addTeamMember = async (req, res) => {
     const response = await AddTeamMemberService(req, res);
     return response;
 }
 
-exports.RemoveTeamMember = async (req, res) => {
+exports.removeTeamMember = async (req, res) => {
     const response = await RemoveTeamMemberService(req, res);
     return response;
 }

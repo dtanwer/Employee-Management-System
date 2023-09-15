@@ -4,6 +4,7 @@ const userModel = require("../models/User.js");
 exports.CreateTeamService = async (req, res) => {
   try {
     const team = await teamModel.create(req.body);
+    
     res.status(201).json({
       message: "Team created successfully",
       data: team,
