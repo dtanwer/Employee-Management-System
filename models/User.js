@@ -18,6 +18,10 @@ const UserSchema=new mongoose.Schema({
         type:String,
         default:'123'
     },
+    active:{
+        type:Boolean,
+        default:true
+    },
     team:[
         {
             type:mongoose.Schema.Types.ObjectId,
