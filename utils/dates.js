@@ -5,7 +5,7 @@ exports.getDaysBetweenDates = (dateString1, dateString2) => {
   const timeDifference = endDate.getTime() - startDate.getTime();
   const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-  return daysDifference;
+  return daysDifference+1;
 };
 
 exports.getPreviousDay = (dateString) => {
@@ -49,17 +49,27 @@ exports.getDaysWithWeekends = (dateString1, dateString2) => {
   let daysWithWeekends = daysBetweenDates;
 
   if (previousDay === "Saturday" || previousDay === "Sunday") {
-    daysWithWeekends += getDayNumberFromDayName(previousDay);
+    daysWithWeekends += getDayNumberForPreviousDay(previousDay);
   }
 
-  if (nextDay === "Saturday" || nextDay === "Sunday") {
-    daysWithWeekends += getDayNumberFromDayName(nextDay);
+  if (nextDay === "Saturday") {
+    daysWithWeekends += 2;
   }
 
   return daysWithWeekends;
 };
 
-const getDayNumberFromDayName = (dayName) => {
+const getDayNumberForPreviousDay = (dayName) => {
+  switch (dayName) {
+    case "Sunday":
+      return 2;
+    case "Saturday":
+      return 1;
+    default:
+      return 0;
+  }
+};
+const getDayNumberForNextDay = (dayName) => {
   switch (dayName) {
     case "Sunday":
       return 2;

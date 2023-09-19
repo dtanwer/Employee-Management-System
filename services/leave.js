@@ -11,7 +11,7 @@ exports.CreateLeaveService = async (req, res) => {
     message=`You can't take leave for more than 3 days (Total Days ${numberOfDays})`;
   }
   const toatlDaysWithWeekends = getDaysWithWeekends(leave.startDate, leave.endDate);
-  
+  console.log(toatlDaysWithWeekends,numberOfDays)
   if(toatlDaysWithWeekends!==numberOfDays){
     status="warning"
     message=`You Leave includes weekends(Total ${toatlDaysWithWeekends} Days) so you can't take leave for more than 3 days`

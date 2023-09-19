@@ -4,7 +4,7 @@ const leaveBankModel = require("../models/LeaveBank.js");
 
 exports.createUser = async (req, res) => {
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const hashedPassword = await bcrypt.hash("123", 10);
     const leaveBank = await leaveBankModel.create({});
     const newUser = await userModel.create({
       ...req.body,

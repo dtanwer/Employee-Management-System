@@ -20,7 +20,7 @@ const LeaveSchema=new mongoose.Schema({
     },
     status:{
         type:String,
-        required:true,
+        default:"pending",
         enum:["pending","approved","rejected"]
     },
     reason:{
