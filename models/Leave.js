@@ -5,6 +5,17 @@ const LeaveSchema=new mongoose.Schema({
         ref:'User',
         required:true
     },
+    message:{
+        status:{
+            type:String,
+            required:true,
+            enum:["warning","success","error"]
+        },
+        text:{
+            type:String,
+            required:true,
+        }
+    },
     leaveType:{
         type:String,
         required:true,

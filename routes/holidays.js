@@ -10,3 +10,5 @@ const {
 router.post("/", createHoliday).get("/", getHolidays);
 router.get("/:id", getHoliday).put("/:id", updateHoliday).delete("/:id", deleteHoliday);
 
+module.exports = router;
+

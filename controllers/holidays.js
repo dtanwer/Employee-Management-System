@@ -26,7 +26,7 @@ exports.getHoliday = async (req, res) => {
     return response;
 }
 
-exports.getAllHolidays = async (req, res) => {
+exports.getHolidays = async (req, res) => {
     const response = await GetAllHolidaysService(req, res);
     return response;
 }
