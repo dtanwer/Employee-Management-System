@@ -1,20 +1,38 @@
 const teamModel = require("../models/Team.js");
 const userModel = require("../models/User.js");
 
-exports.CreateTeamService = async (req, res) => {
+exports.CreateTeamService = async (req, res) => { 
+  const team = req.body;
+  const session = await teamModel.startSession();
+  session.startTransaction();
   try {
-    const team = await teamModel.create(req.body);
-    req.body.teamMembers.map(async (id) => {
-      await userModel.findByIdAndUpdate(id, {
-        $push: { team: team._id, teamLead: req.body.teamLead },
-      });
+    const newTeam = await teamModel.create([team], { session });
+
+    //Updating the users collection of the users that are in the team
+    const usersToAdd =  req.body.teamMembers.map(async (id) => {
+     return await userModel.findByIdAndUpdate(id, {
+        $push: { team: newTeam._id, teamLead: newTeam.teamLead },
+      }, session);
     });
 
-    res.status(201).json({
-      status: "success",
-      message: "Team created successfully",
-      data: team,
-    });
+   if(newTeam && usersToAdd){
+      await session.commitTransaction();
+      session.endSession();
+      res.status(201).json({
+        status: "success",
+        message: "Team created successfully",
+        data: team,
+      });
+
+   }
+   else{
+      await session.abortTransaction();
+      session.endSession();
+      res.status(400).json({
+        status: "error",
+        message: "Cannot create team",
+      });
+   }
 
    
   } catch (err) {
@@ -59,8 +77,6 @@ exports.GetTeamsService = async (req, res) => {
 
 exports.UpdateTeamService = async (req, res) => {
   const { id: _id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(_id))
-    return res.status(404).json({ message: "No team with that id" });
   try {
     const updatedTeam = await teamModel.findByIdAndUpdate(_id, req.body, {
       new: true,
@@ -80,8 +96,7 @@ exports.UpdateTeamService = async (req, res) => {
 
 exports.DeleteTeamService = async (req, res) => {
   const { id: _id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(_id))
-    return res.status(404).json({ message: "No team with that id" });
+ 
   try {
     const deletedTeam = await teamModel.findByIdAndRemove(_id);
     res.status(200).json({
@@ -99,24 +114,19 @@ exports.DeleteTeamService = async (req, res) => {
 
 exports.AddTeamMemberService = async (req, res) => {
   const { id: _id } = req.params;   //team id
-  if (!mongoose.Types.ObjectId.isValid(_id))
-    return res
-      .status(404)
-      .json({ status: "warning", message: "No team with that id" });
+
   try {
     const updatedTeam = await teamModel.findByIdAndUpdate(
       _id,
-      { $push: { teamMembers: req.body } },
+      { $push: {teamMembers:{ "$each": req.body.team }}},
       {
         new: true,
       }
     );
-    //Asigning a team leader
-    // req.body.teamMembers.map(async (id) => {
-    //   await userModel.findByIdAndUpdate(id, { $push: { team: id } });
-
-    // });
-    req.body.
+      //Pushing the team's id in users defined model 
+    req.body.team.map(async(id)=>{
+       await userModel.findByIdAndUpdate(id, {$push :{team : updatedTeam._id, teamLead: updatedTeam.teamLead}})
+    })
 
     res.status(200).json({
       status: "success",
@@ -126,38 +136,45 @@ exports.AddTeamMemberService = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       status: "error",
-      message: err.message,
+      message: error.message,
     });
   }
 };
 
 exports.RemoveTeamMemberService = async (req, res) => {
   const { id: _id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(_id))
-    return res
-      .status(404)
-      .json({ status: "warning", message: "No team with that id" });
+  const {userId} = req.body;
+
+  const session = await teamModel.startSession();
+  session.startTransaction();
 
   try {
-    const updatedTeam = await teamModel.findByIdAndUpdate(
-      _id,
-      { $pull: { teamMembers: req.body } },
-      {
-        new: true,
-      }
-    );
 
-    await userModel.findByIdAndUpdate(req.body, { $pull: { team: req.body } });
+    const updatedTeam = await teamModel.findByIdAndUpdate(_id,{ $pull: { teamMembers: userId} }, {new: true,}, session);
+    const updatedUser  =  await userModel.findByIdAndUpdate(userId , { $pull: { team: _id } }, session);
 
-    res.status(200).json({
-      status: "success",
-      message: "Team updated successfully",
-      data: updatedTeam,
-    });
+    if(updatedUser && updatedTeam){
+      await session.commitTransaction();
+      session.endSession();
+      res.status(200).json({
+        status: "success",
+        message: "Team updated successfully",
+        data: updatedTeam,
+      });
+    }
+    else{
+       await session.abortTransaction();
+        session.endSession();
+        res.status(400).json({
+          status: "error",
+          message: "Cannot remove user from team",
+        });
+    }
+   
   } catch (error) {
     res.status(400).json({
       status: "error",
-      message: err.message,
+      message: error.message,
     });
   }
 };
