@@ -6,11 +6,12 @@ exports.CreateIssueService = async (req, res) => {
     const newIssue = new issueModel(issue);
     await newIssue.save();
     res.status(201).json({
+      status: "success",
       message: "Issue created successfully",
       data: newIssue,
     });
   } catch (error) {
-    res.status(409).json({ message: error.message });
+    res.status(409).json({  status: "error", message: error.message });
   }
 };
 
@@ -19,6 +20,7 @@ exports.UpdateIssueService = async (req, res) => {
   const issue = req.body;
   if (!mongoose.Types.ObjectId.isValid(_id)) {
     res.status(400).json({
+      status: "warning",
       message: "Invalid Id",
     });
   }
@@ -27,11 +29,12 @@ exports.UpdateIssueService = async (req, res) => {
       new: true,
     });
     res.status(200).json({
+      status: "success",
       message: "Issue updated successfully",
       data: updatedIssue,
     });
   } catch (error) {
-    res.status(409).json({ message: error.message });
+    res.status(409).json({  status: "error", message: error.message });
   }
 };
 
@@ -39,6 +42,7 @@ exports.DeleteIssueService = async (req, res) => {
   const { id: _id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(_id)) {
     res.status(400).json({
+      status: "warning",
       message: "Invalid Id",
     });
   }

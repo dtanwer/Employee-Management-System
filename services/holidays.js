@@ -63,7 +63,7 @@ exports.GetAllHolidaysService = async (req, res) => {
         res.status(200).json({
             status: 'success',
             message: 'Holidays fetched successfully',
-            data: holidays,
+            data: holidays
         })
     } catch (error) {
         res.status(409).json({ status: 'error', message: error.message });
