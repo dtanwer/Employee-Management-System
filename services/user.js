@@ -22,7 +22,7 @@ exports.createUser = async (req, res) => {
       message: err.message,
     });
   }
-};
+}
 
 exports.getUsers = async (req, res) => {
   try {

@@ -4,15 +4,21 @@ const userModel = require("../models/User.js");
 exports.CreateTeamService = async (req, res) => {
   try {
     const team = await teamModel.create(req.body);
-    
+    req.body.teamMembers.map(async (id) => {
+      await userModel.findByIdAndUpdate(id, {
+        $push: { team: team._id, teamLead: req.body.teamLead },
+      });
+    });
+
     res.status(201).json({
-        status: "success",
+      status: "success",
       message: "Team created successfully",
       data: team,
     });
+
+   
   } catch (err) {
     res.status(400).json({
-
       status: "error",
       message: err.message,
     });
@@ -23,7 +29,7 @@ exports.GetTeamService = async (req, res) => {
   try {
     const team = await teamModel.findById(req.params.id);
     res.status(200).json({
-        status: "success",
+      status: "success",
       message: "Team fetched successfully",
       data: team,
     });
@@ -39,7 +45,7 @@ exports.GetTeamsService = async (req, res) => {
   try {
     const teams = await teamModel.find();
     res.status(200).json({
-        status: "success",
+      status: "success",
       message: "Teams fetched successfully",
       data: teams,
     });
@@ -60,7 +66,7 @@ exports.UpdateTeamService = async (req, res) => {
       new: true,
     });
     res.status(200).json({
-        status: "success",
+      status: "success",
       message: "Team updated successfully",
       data: updatedTeam,
     });
@@ -79,7 +85,7 @@ exports.DeleteTeamService = async (req, res) => {
   try {
     const deletedTeam = await teamModel.findByIdAndRemove(_id);
     res.status(200).json({
-        status: "success",
+      status: "success",
       message: "Team deleted successfully",
       data: deletedTeam,
     });
@@ -92,9 +98,11 @@ exports.DeleteTeamService = async (req, res) => {
 };
 
 exports.AddTeamMemberService = async (req, res) => {
-  const { id: _id } = req.params;
+  const { id: _id } = req.params;   //team id
   if (!mongoose.Types.ObjectId.isValid(_id))
-    return res.status(404).json({   status: "warning", message: "No team with that id" });
+    return res
+      .status(404)
+      .json({ status: "warning", message: "No team with that id" });
   try {
     const updatedTeam = await teamModel.findByIdAndUpdate(
       _id,
@@ -103,13 +111,15 @@ exports.AddTeamMemberService = async (req, res) => {
         new: true,
       }
     );
+    //Asigning a team leader
+    // req.body.teamMembers.map(async (id) => {
+    //   await userModel.findByIdAndUpdate(id, { $push: { team: id } });
 
-    req.body.team.map(async (id) => {
-      await userModel.findByIdAndUpdate(id,{ $push: { team: id } });
-    });
+    // });
+    req.body.
 
     res.status(200).json({
-        status: "success",
+      status: "success",
       message: "Team updated successfully",
       data: updatedTeam,
     });
@@ -124,8 +134,10 @@ exports.AddTeamMemberService = async (req, res) => {
 exports.RemoveTeamMemberService = async (req, res) => {
   const { id: _id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(_id))
-    return res.status(404).json({   status: "warning", message: "No team with that id" });
-  
+    return res
+      .status(404)
+      .json({ status: "warning", message: "No team with that id" });
+
   try {
     const updatedTeam = await teamModel.findByIdAndUpdate(
       _id,
@@ -135,10 +147,10 @@ exports.RemoveTeamMemberService = async (req, res) => {
       }
     );
 
-    await userModel.findByIdAndUpdate(req.body,{ $pull: { team: req.body } });
+    await userModel.findByIdAndUpdate(req.body, { $pull: { team: req.body } });
 
     res.status(200).json({
-        status: "success",
+      status: "success",
       message: "Team updated successfully",
       data: updatedTeam,
     });
