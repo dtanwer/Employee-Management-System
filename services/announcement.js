@@ -7,11 +7,12 @@ exports.CreateAnnouncementService = async (req, res) => {
     const newAnnouncement = new anouncementModel(announcement);
     await newAnnouncement.save();
     res.status(201).json({
+      status: "success",
       message: "Announcement created successfully",
       data: newAnnouncement,
     });
   } catch (error) {
-    res.status(409).json({ message: error.message });
+    res.status(409).json({  status: "error", message: error.message });
   }
 };
 
@@ -27,11 +28,12 @@ exports.UpdateAnnouncementService = async (req, res) => {
       { new: true }
     );
     res.status(200).json({
+      status: "success",
       message: "Announcement updated successfully",
       data: updatedAnnouncement,
     });
   } catch (error) {
-    res.status(409).json({ message: error.message });
+    res.status(409).json({  status: "error", message: error.message });
   }
 };
 
@@ -41,9 +43,9 @@ exports.DeleteAnnouncementService = async (req, res) => {
         return res.status(404).send("No announcement with that id");
     try {
         await anouncementModel.findByIdAndRemove(_id);
-        res.status(200).json({ message: "Announcement deleted successfully" });
+        res.status(200).json({  status: "success", message: "Announcement deleted successfully" });
     } catch (error) {
-        res.status(409).json({ message: error.message });
+        res.status(409).json({  status: "error", message: error.message });
     }
 }
 
@@ -53,17 +55,17 @@ exports.GetAnnouncementService = async (req, res) => {
         return res.status(404).send("No announcement with that id");
     try {
         const announcement = await anouncementModel.findById(_id);
-        res.status(200).json({ data: announcement });
+        res.status(200).json({  status: "success", data: announcement });
     } catch (error) {
-        res.status(409).json({ message: error.message });
+        res.status(409).json({  status: "error", message: error.message });
     }
 }
 
 exports.GetAnnouncementsService = async (req, res) => {
     try {
         const announcements = await anouncementModel.find();
-        res.status(200).json({ data: announcements });
+        res.status(200).json({   status: "success",data: announcements });
     } catch (error) {
-        res.status(409).json({ message: error.message });
+        res.status(409).json({   status: "error", message: error.message });
     }
 }

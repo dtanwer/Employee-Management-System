@@ -5,10 +5,21 @@ const LeaveSchema=new mongoose.Schema({
         ref:'User',
         required:true
     },
+    message:{
+        status:{
+            type:String,
+            required:true,
+            enum:["warning","success","error"]
+        },
+        text:{
+            type:String,
+            required:true,
+        }
+    },
     leaveType:{
         type:String,
         required:true,
-        enum:["sick","vacation","maternity","paternity","other"]
+        enum:["Sick Leave","Casual Leave","Earned Leave","Floating Leave"]
     },
     startDate:{
         type:Date,
@@ -20,7 +31,7 @@ const LeaveSchema=new mongoose.Schema({
     },
     status:{
         type:String,
-        required:true,
+        default:"pending",
         enum:["pending","approved","rejected"]
     },
     reason:{
