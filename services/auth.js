@@ -21,9 +21,7 @@ exports.loginUserServices = async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-    res
-      .cookie("access_token", token, { httpOnly: true, maxAge: 86400000 })
-      .status(200)
+    res.cookie("access_token", token, { httpOnly: true, maxAge: 86400000 }).status(200)
       .json({
         status: "success",
         message: "User logged in successfully",
