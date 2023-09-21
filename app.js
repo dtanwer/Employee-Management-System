@@ -8,6 +8,7 @@ const projectIdeasRouter = require('./routes/projectIdea');
 const userRouter = require('./routes/user');
 const holidayRouter = require('./routes/holidays');
 const teamRouter = require('./routes/team');
+const leaveBankRouter = require('./routes/leaveBank');
 const cors = require('cors');
 const cookieParser = require("cookie-parser");
 
@@ -31,5 +32,6 @@ app.use('/leave',leaveRouter)
 app.use('/projectIdea',projectIdeasRouter)
 app.use('/holidays',holidayRouter)
 app.use('/team',teamRouter)
+app.use('/leaveBank',leaveBankRouter)
 
 module.exports = app;
