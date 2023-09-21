@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const userModel = require("../models/User.js");
 const leaveBankModel = require("../models/LeaveBank.js");
+const { modifidedUserResponce, modifidedUsersResponce } = require("../utils/modifidedResponce.js");
 
 exports.createUser = async (req, res) => {
   try {
@@ -11,10 +12,12 @@ exports.createUser = async (req, res) => {
       password: hashedPassword,
       leaveBankId: leaveBank._id,
     });
+
+    const modifiedUser=modifidedUserResponce(newUser);
     res.status(201).json({
       status:"success",
       message: "User created successfully",
-      data: newUser,
+      data: modifiedUser,
     });
   } catch (err) {
     res.status(400).json({
@@ -27,10 +30,11 @@ exports.createUser = async (req, res) => {
 exports.getUsers = async (req, res) => {
   try {
     const users = await userModel.find();
+    const modifiedUsers=modifidedUsersResponce(users);
     res.status(200).json({
       status:"success",
       message: "Users fetched successfully",
-      data: users,
+      data: modifiedUsers,
     });
   } catch (err) {
     res.status(400).json({
@@ -44,10 +48,11 @@ exports.getUser = async (req, res) => {
   const id = req.params.id;
   try {
     const user = await userModel.findById(id);
+    const modifiedUser=modifidedUserResponce(user);
     res.status(200).json({
       status:"success",
       message: "User fetched successfully",
-      data: user,
+      data: modifiedUser,
     });
   } catch (err) {
     res.status(400).json({

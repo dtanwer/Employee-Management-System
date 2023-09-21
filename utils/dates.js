@@ -1,3 +1,13 @@
+const daysOfWeek = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
 exports.getDaysBetweenDates = (dateString1, dateString2) => {
   const startDate = new Date(dateString1);
   const endDate = new Date(dateString2);
@@ -8,42 +18,9 @@ exports.getDaysBetweenDates = (dateString1, dateString2) => {
   return daysDifference+1;
 };
 
-exports.getPreviousDay = (dateString) => {
-  const daysOfWeek = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  const date = new Date(dateString);
-  date.setDate(date.getDate() - 1);
-  const dayOfWeekIndex = date.getDay();
-  return daysOfWeek[dayOfWeekIndex];
-};
-exports.getNextDay = (dateString) => {
-  const daysOfWeek = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  const date = new Date(dateString);
-  date.setDate(date.getDate() + 1);
-  const dayOfWeekIndex = date.getDay();
-  return daysOfWeek[dayOfWeekIndex];
-};
-
-//2023-09-18
-
 exports.getDaysWithWeekends = (dateString1, dateString2) => {
-  const previousDay = this.getPreviousDay(dateString1);
-  const nextDay = this.getNextDay(dateString2);
+  const previousDay = getPreviousDay(dateString1);
+  const nextDay = getNextDay(dateString2);
   const daysBetweenDates = this.getDaysBetweenDates(dateString1, dateString2);
 
   let daysWithWeekends = daysBetweenDates;
@@ -55,21 +32,31 @@ exports.getDaysWithWeekends = (dateString1, dateString2) => {
   if (nextDay === "Saturday") {
     daysWithWeekends += 2;
   }
+  else if (nextDay === "Sunday") {
+    daysWithWeekends += 1;
+  }
 
   return daysWithWeekends;
 };
 
-const getDayNumberForPreviousDay = (dayName) => {
-  switch (dayName) {
-    case "Sunday":
-      return 2;
-    case "Saturday":
-      return 1;
-    default:
-      return 0;
-  }
+const getPreviousDay = (dateString) => {
+  const date = new Date(dateString);
+  date.setDate(date.getDate() - 1);
+  const dayOfWeekIndex = date.getDay();
+  return daysOfWeek[dayOfWeekIndex];
 };
-const getDayNumberForNextDay = (dayName) => {
+
+const getNextDay = (dateString) => {
+  const date = new Date(dateString);
+  date.setDate(date.getDate() + 1);
+  const dayOfWeekIndex = date.getDay();
+  return daysOfWeek[dayOfWeekIndex];
+};
+
+
+
+
+const getDayNumberForPreviousDay = (dayName) => {
   switch (dayName) {
     case "Sunday":
       return 2;

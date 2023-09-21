@@ -34,6 +34,7 @@ exports.CreateLeaveService = async (req, res) => {
   }
 };
 
+
 exports.UpdateLeaveService = async (req, res) => {
   const { id: _id } = req.params;
   const leave = req.body;
