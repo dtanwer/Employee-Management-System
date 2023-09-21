@@ -4,6 +4,7 @@ const {
   CreateLeaveService,
   UpdateLeaveService,
   DeleteLeaveService,
+  GetLeavesForTechLeadService
 } = require("../services/leave");
 
 exports.getLeave = async (req, res) => {
@@ -28,6 +29,11 @@ exports.deleteLeave = async (req, res) => {
 
 exports.getLeaves = async (req, res) => {
   const response = await GetLeavesService(req, res);
+  return response;
+}
+
+exports.getLeavesForTechLead = async (req, res) => {
+  const response = await GetLeavesForTechLeadService(req, res);
   return response;
 }
 

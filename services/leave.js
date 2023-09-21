@@ -90,3 +90,18 @@ exports.GetLeavesService = async (req, res) => {
     res.status(409).json({ status: "error", message: error.message });
   }
 };
+
+
+exports.GetLeavesForTechLeadService=async(req,res)=>{
+  const {id:_id}=req.params;
+  try{
+    const leaves=await leaveModel.find({techLead:_id});
+    res.status(200).json({
+      status:"success",
+      message:"Leaves fetched successfully",
+      data:leaves
+    })
+  }catch(error){
+    res.status(409).json({status:"error",message:error.message})
+  }
+}

@@ -41,10 +41,10 @@ const LeaveSchema=new mongoose.Schema({
     comment:{
         type:String,
     },
-    submittedBy:{
-        type:String,
-        required:true,
-        match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'is invalid Email'],
+    techLead:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User',
+        required:true
     }
 },{timestamps:true})
 
