@@ -14,7 +14,7 @@ const teamSchema = mongoose.Schema({
         ref:'User'
     },
     teamProject:{
-        type:mongoose.Schema.Types.ObjectId,
+        type:String,
         ref:'Project'
     }
 })

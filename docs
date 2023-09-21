@@ -1,0 +1,28 @@
+http://localhost:5000
+
+Route: /user Get(get all users), Post(create user)
+Route: /user/:id Get(get  user), Put(update user),Delete(delete user)
+
+Route: /auth/login Post(login user)
+
+Route: /announcement Get(get all announcements), Post(create announcement)
+Route: /announcement/:id Get(get announcement), Put(update announcement),Delete(delete announcement)
+
+Route: /feedback Get(get all feedbacks), Post(create feedback)
+Route: /feedback/:id Get(get feedback), Put(update feedback),Delete(delete feedback)
+
+Route: /issue Get(get all issues), Post(create issue)
+Route: /issue/:id Get(get issue), Put(update issue),Delete(delete issue)
+
+Route: /leave Get(get all leaves), Post(create leave)
+Route: /leave/:id Get(get leave), Put(update leave),Delete(delete leave)
+
+
+Route: /projectIdea Get(get all projectIdeas), Post(create projectIdea)
+Route: /projectIdea/:id Get(get projectIdea), Put(update projectIdea),Delete(delete projectIdea)
+
+Route: /holidays  Get(get all holidays), Post(create holiday)
+Route: /holidays/:id Get(get holiday), Put(update holiday),Delete(delete holiday)
+
+Route: /team Get(get all teams), Post(create team)
+Route: /team/:id Get(get team), Put(update team),Delete(delete team)

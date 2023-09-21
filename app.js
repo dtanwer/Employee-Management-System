@@ -8,12 +8,15 @@ const projectIdeasRouter = require('./routes/projectIdea');
 const userRouter = require('./routes/user');
 const holidayRouter = require('./routes/holidays');
 const teamRouter = require('./routes/team');
+const cors = require('cors');
 const cookieParser = require("cookie-parser");
 
 const app = express();
 app.use(cookieParser());
 app.use(express.json());
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
+
 
 app.get("/", (req, res) => {
   res.send("Api is working");
